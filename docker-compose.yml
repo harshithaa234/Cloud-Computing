@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:latest
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  test:
+    image: postman/newman_ubuntu1404
+    volumes:
+      - ./tests:/etc/newman
+    entrypoint: "newman run /etc/newman/your_postman_collection.json"
+    depends_on:
+      - web
