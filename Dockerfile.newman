@@ -1,0 +1,7 @@
+FROM postman/newman_ubuntu1404
+
+# Copy Postman collection from host to container
+COPY tests /etc/newman
+
+# Set the entrypoint to run Newman
+ENTRYPOINT ["newman", "run", "/etc/newman/My API Collection.postman_collection.json"]
